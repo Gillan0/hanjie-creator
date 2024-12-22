@@ -31,6 +31,11 @@ public class HanjieGrid extends Grid {
 				count = 0;
 			}
 		}
+		
+		if (count != 0) {
+	        description.add(count);
+	    }
+		
 		return description;
 	}
 	
@@ -49,6 +54,10 @@ public class HanjieGrid extends Grid {
 				count = 0;
 			}
 		}
+		
+		if (count != 0) {
+	        description.add(count);
+	    }
 
 		return description;
 	}

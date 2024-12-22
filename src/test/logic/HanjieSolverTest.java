@@ -90,4 +90,92 @@ class HanjieSolverTest {
 	 
 	 */
 	
+	/* Shield figure 
+	 	
+	 	_ _ _ _ 1 _ _ _ _ _ 
+		_ _ _ 1 1 1 _ _ _ _ 
+		_ _ 1 1 1 1 1 _ _ _ 
+		_ 1 1 _ _ 1 1 1 _ _ 
+		1 1 1 _ _ _ 1 1 1 _ 
+		_ 1 1 1 _ _ _ 1 1 _ 
+		_ _ 1 1 1 _ _ 1 1 _ 
+		_ _ _ 1 1 1 1 1 1 _ 
+		_ _ _ _ 1 1 1 1 1 _ 
+		_ _ _ _ _ _ _ _ _ _ 
+		 
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1,  1, -1, -1, -1, -1, -1)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(-1, -1, -1,  1,  1,  1, -1, -1, -1, -1)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(-1, -1,  1,  1,  1,  1,  1, -1, -1, -1)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(-1,  1,  1,  -1,  -1,  1,  1,  1, -1, -1)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList( 1,  1,  1,  -1,  -1,  -1,  1,  1,  1, -1)));
+		h.setLine(5, new ArrayList<Integer>(Arrays.asList(-1,  1,  1,  +1,  -1,  -1,  -1,  1,  1, -1)));
+		h.setLine(6, new ArrayList<Integer>(Arrays.asList(-1, -1,  1,  1,  1,  -1,  -1,  1,  1, -1)));
+		h.setLine(7, new ArrayList<Integer>(Arrays.asList(-1, -1, -1,  1,  1,  1,  1,  1,  1, -1)));
+		h.setLine(8, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1,  1,  1,  1,  1,  1, -1)));
+		h.setLine(9, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1)));
+	 
+	 */
+	
+	/* Template for manual draw
+	 
+	 	_ _ _ _ _ _ _ _ _ 1 1 1 1 1 1 1 _ _ _ _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ _ 1 1 1 1 1 1 1 1 1 _ _ _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 1 _ _ _ _ _ 1 1 1 _ _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 _ _ _ _ _ _ _ 1 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 _ 1 1 1 _ _ _ _ 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 _ _ _ 1 1 1 _ _ 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 _ _ _ _ 1 1 _ _ 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ 1 1 1 _ _ _ 1 1 _ _ 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ _ 1 1 1 1 1 1 _ _ _ 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ _ _ 1 1 1 1 _ _ _ 1 1 1 _ _ _ _ _ _ 
+		_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 1 1 _ _ _ _ _ _ _ 
+		_ _ _ _ 1 1 1 1 1 _ _ _ _ _ 1 1 1 1 _ _ _ _ _ _ _ 
+		_ _ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 _ _ _ _ _ _ _ _ 
+		_ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 _ _ _ _ _ _ _ _ _ 
+		1 1 1 _ _ _ _ _ _ _ 1 1 1 1 1 _ _ _ 1 1 1 1 1 1 _ 
+		1 1 _ _ _ _ _ _ _ _ _ 1 1 1 1 _ _ 1 1 1 1 1 1 1 1 
+		1 _ _ _ 1 1 1 1 _ _ _ 1 1 1 _ _ _ 1 1 _ _ _ _ 1 1 
+		1 _ _ 1 1 1 1 1 1 _ _ 1 1 1 _ _ _ 1 _ _ _ _ _ _ 1 
+		1 _ _ 1 1 _ _ 1 1 1 _ _ 1 1 _ _ _ 1 1 _ _ _ _ _ 1 
+		1 _ _ 1 1 _ _ _ 1 1 _ _ 1 1 _ _ _ 1 1 1 1 1 _ _ 1 
+		1 _ _ _ _ _ _ _ 1 1 _ _ 1 1 1 _ _ _ 1 1 1 _ _ _ 1 
+		1 1 _ _ _ _ _ _ 1 1 _ _ _ 1 1 1 _ _ _ _ _ _ _ 1 1 
+		1 1 1 _ _ _ 1 1 1 _ _ _ _ 1 1 1 1 _ _ _ _ _ 1 1 1 
+		_ 1 1 1 1 1 1 1 1 _ _ _ _ _ 1 1 1 1 1 1 1 1 1 1 1 
+		_ _ 1 1 1 1 1 1 _ _ _ _ _ _ _ _ 1 1 1 1 1 1 1 1 _ 
+	 
+	 
+	 	h.setLine(0, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 0, 0, 1,  1, 1, 1, 1, 1,  1, 0, 0, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 0, 1, 1,  1, 1, 1, 1, 1,  1, 1, 0, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 1,  0, 0, 0, 0, 0,  1, 1, 1, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0,  0, 1, 1, 1, 0,  0, 0, 0, 0, 0)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 0,  1, 1, 1, 0, 0,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0)));
+															
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 0,  0, 0, 1, 1, 1,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 0,  0, 0, 0, 1, 1,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 1, 1, 1,  0, 0, 0, 1, 1,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 0, 1, 1,  1, 1, 1, 1, 0,  0, 0, 1, 1, 0,  0, 0, 0, 0, 0)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 0, 0, 1,  1, 1, 1, 0, 0,  0, 1, 1, 1, 0,  0, 0, 0, 0, 0)));
+																
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 0, 0, 0, 0,  0, 1, 1, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1,  1, 1, 1, 1, 0,  0, 0, 0, 0, 1,  1, 1, 1, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(0, 0, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, 0, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(0, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 0, 0, 0, 0,  0, 0, 0, 0, 0)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 0, 0,  0, 0, 0, 0, 0,  1, 1, 1, 1, 1,  0, 0, 0, 1, 1,  1, 1, 1, 1, 0)));
+																
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(1, 1, 0, 0, 0,  0, 0, 0, 0, 0,  0, 1, 1, 1, 1,  0, 0, 1, 1, 1,  1, 1, 1, 1, 1)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 1,  1, 1, 1, 0, 0,  0, 1, 1, 1, 0,  0, 0, 1, 1, 0,  0, 0, 0, 1, 1)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 1,  1, 1, 1, 1, 0,  0, 1, 1, 1, 0,  0, 0, 1, 0, 0,  0, 0, 0, 0, 1)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 1,  0, 0, 1, 1, 1,  0, 0, 1, 1, 0,  0, 0, 1, 1, 0,  0, 0, 0, 0, 1)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 1,  0, 0, 0, 1, 1,  0, 0, 1, 1, 0,  0, 0, 1, 1, 1,  1, 1, 0, 0, 1)));
+																		
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0,  0, 0, 0, 1, 1,  0, 0, 1, 1, 1,  0, 0, 0, 1, 1,  1, 0, 0, 0, 1)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(1, 1, 0, 0, 0,  0, 0, 0, 1, 1,  0, 0, 0, 1, 1,  1, 0, 0, 0, 0,  0, 0, 0, 1, 1)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 0, 0,  0, 1, 1, 1, 0,  0, 0, 0, 1, 1,  1, 1, 0, 0, 0,  0, 0, 1, 1, 1)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(0, 1, 1, 1, 1,  1, 1, 1, 1, 0,  0, 0, 0, 0, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(0, 0, 1, 1, 1,  1, 1, 1, 0, 0,  0, 0, 0, 0, 0,  0, 1, 1, 1, 1,  1, 1, 1, 1, 0)));
+	 
+	 
+	 */
+	
 }

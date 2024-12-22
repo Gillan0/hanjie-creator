@@ -32,10 +32,21 @@ public class HanjieSolver {
 	}
 	
 	private void solve(int NB_LOOP) throws Exception {
-		if (NB_LOOP >= 150 || axisArrays.size() <= 0) {
+		if (NB_LOOP >= 1000 || axisArrays.size() <= 0) {
 			return;
 		}
+		if (hanjieGrid.equals(solveGrid)) {
+			System.out.println("Solved in " + NB_LOOP + " steps");
+			return;
+		}
+
 		AxisArray a = axisArrays.getFirst();
+		
+
+		System.out.println("# # # # # # # # # #");
+		System.out.println("Step : " + NB_LOOP);
+		System.out.println(a.getClass().getName() + " index " + a.getIndex() + " heuristic " + a.getHeuristic());
+		
 		if (a instanceof LineArray) {
 			a.setContent(solveGrid.getLine(a.getIndex()));
 		} else {
@@ -52,7 +63,7 @@ public class HanjieSolver {
 			a.computeHuristic();
 			axisArrays.add(a);
 		}
-		axisArrays.sort((AxisArray e1, AxisArray e2) -> Double.compare(e1.getHeuristic(), e2.getHeuristic()));
+		axisArrays.sort((AxisArray e1, AxisArray e2) -> Double.compare(e2.getHeuristic(), e1.getHeuristic()));
 
 		
 		a.updateGrid(solveGrid);
@@ -63,9 +74,9 @@ public class HanjieSolver {
 	
 	
 	public static void main(String[] args) throws Exception {
-		HanjieGrid h = new HanjieGrid(10);
+		HanjieGrid h = new HanjieGrid(25);
 		
-		/* h Figure
+		/*  h Figure
 		 * 
 		 *        x x
 		 *      x x x x
@@ -76,18 +87,38 @@ public class HanjieSolver {
 		 *        x x   
 		 *        x x
 		 * 
+		 *
 		 */
 		
-		h.setLine(0, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
-		h.setLine(1, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
-		h.setLine(2, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
-		h.setLine(3, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
-		h.setLine(4, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
-		h.setLine(5, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
-		h.setLine(6, new ArrayList<Integer>(Arrays.asList(-1,1,1,1,1,1,1,1,1,-1)));
-		h.setLine(7, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
-		h.setLine(8, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
-		h.setLine(9, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, -1, -1, 1,  1, 1, 1, 1, 1,  1, -1, -1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, -1, 1, 1,  1, 1, 1, 1, 1,  1, 1, -1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, 1,  -1, -1, -1, -1, -1,  1, 1, 1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1,  -1, 1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, -1,  1, 1, 1, -1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+
+		h.setLine(5, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, -1,  -1, -1, 1, 1, 1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(6, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, 1, 1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(7, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, 1, 1, 1,  -1, -1, -1, 1, 1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(8, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, -1, 1, 1,  1, 1, 1, 1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(9, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, -1, -1, 1,  1, 1, 1, -1, -1,  -1, 1, 1, 1, -1,  -1, -1, -1, -1, -1)));
+
+		h.setLine(10, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1,  -1, 1, 1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(11, new ArrayList<Integer>(Arrays.asList(-1, -1, -1, -1, 1,  1, 1, 1, 1, -1,  -1, -1, -1, -1, 1,  1, 1, 1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(12, new ArrayList<Integer>(Arrays.asList(-1, -1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, -1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(13, new ArrayList<Integer>(Arrays.asList(-1, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1,  1, -1, -1, -1, -1,  -1, -1, -1, -1, -1)));
+		h.setLine(14, new ArrayList<Integer>(Arrays.asList(1, 1, 1, -1, -1,  -1, -1, -1, -1, -1,  1, 1, 1, 1, 1,  -1, -1, -1, 1, 1,  1, 1, 1, 1, -1)));
+
+		h.setLine(15, new ArrayList<Integer>(Arrays.asList(1, 1, -1, -1, -1,  -1, -1, -1, -1, -1,  -1, 1, 1, 1, 1,  -1, -1, 1, 1, 1,  1, 1, 1, 1, 1)));
+		h.setLine(16, new ArrayList<Integer>(Arrays.asList(1, -1, -1, -1, 1,  1, 1, 1, -1, -1,  -1, 1, 1, 1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, 1, 1)));
+		h.setLine(17, new ArrayList<Integer>(Arrays.asList(1, -1, -1, 1, 1,  1, 1, 1, 1, -1,  -1, 1, 1, 1, -1,  -1, -1, 1, -1, -1,  -1, -1, -1, -1, 1)));
+		h.setLine(18, new ArrayList<Integer>(Arrays.asList(1, -1, -1, 1, 1,  -1, -1, 1, 1, 1,  -1, -1, 1, 1, -1,  -1, -1, 1, 1, -1,  -1, -1, -1, -1, 1)));
+		h.setLine(19, new ArrayList<Integer>(Arrays.asList(1, -1, -1, 1, 1,  -1, -1, -1, 1, 1,  -1, -1, 1, 1, -1,  -1, -1, 1, 1, 1,  1, 1, -1, -1, 1)));
+
+		h.setLine(20, new ArrayList<Integer>(Arrays.asList(1, -1, -1, -1, -1,  -1, -1, -1, 1, 1,  -1, -1, 1, 1, 1,  -1, -1, -1, 1, 1,  1, -1, -1, -1, 1)));
+		h.setLine(21, new ArrayList<Integer>(Arrays.asList(1, 1, -1, -1, -1,  -1, -1, -1, 1, 1,  -1, -1, -1, 1, 1,  1, -1, -1, -1, -1,  -1, -1, -1, 1, 1)));
+		h.setLine(22, new ArrayList<Integer>(Arrays.asList(1, 1, 1, -1, -1,  -1, 1, 1, 1, -1,  -1, -1, -1, 1, 1,  1, 1, -1, -1, -1,  -1, -1, 1, 1, 1)));
+		h.setLine(23, new ArrayList<Integer>(Arrays.asList(-1, 1, 1, 1, 1,  1, 1, 1, 1, -1,  -1, -1, -1, -1, 1,  1, 1, 1, 1, 1,  1, 1, 1, 1, 1)));
+		h.setLine(24, new ArrayList<Integer>(Arrays.asList(-1, -1, 1, 1, 1,  1, 1, 1, -1, -1,  -1, -1, -1, -1, -1,  -1, 1, 1, 1, 1,  1, 1, 1, 1, -1)));
 
 		HanjieSolver solver = new HanjieSolver(h);
 	}

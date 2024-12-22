@@ -17,9 +17,11 @@ public abstract class AxisArray {
 		this.content = content;
 		this.description = description;
 		this.index = index;
-		this.heuristic = this.computeHuristic();
+		this.heuristic = 0;
 		this.possibilities = PossibilityManager.computePossibilities(description, content.size());
-		this.descriptionPriority = description.stream().mapToInt(Integer::intValue).sum() + description.size() - 1;
+		this.descriptionPriority = description.stream().mapToInt(Integer::intValue).sum() - description.size() + 1;
+		
+		this.computeHuristic();
 	}
 	
 	public boolean isComplete() {
@@ -27,10 +29,16 @@ public abstract class AxisArray {
 		return contentFilled == content.size();
 	}
 	
-	public int computeHuristic() {		
+	public void computeHuristic() {		
 		int contentFilled = (int) content.stream().mapToInt(Integer::intValue).filter((e) -> e != 0).count();
 		
-		return descriptionPriority - contentFilled;
+		if (description.size() <= 0) {
+			heuristic = 1000;
+			return;
+		}
+		
+		heuristic = 2*descriptionPriority + contentFilled;
+		heuristic = 0;
 	}
 
 	public int getHeuristic() {
