@@ -32,16 +32,16 @@ class HanjieGridTest {
 		 * 
 		 */
 		
-		hanjieGrid.setLine(0, new Integer[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1});
-		hanjieGrid.setLine(1, new Integer[] {-1,-1,-1,-1,1,1,-1,-1,-1,-1});
-		hanjieGrid.setLine(2, new Integer[] {-1,-1,-1,1,1,1,1,-1,-1,-1});
-		hanjieGrid.setLine(3, new Integer[] {-1,-1,1,1,1,1,1,1,-1,-1});
-		hanjieGrid.setLine(4, new Integer[] {-1,-1,-1,1,1,1,1,-1,-1,-1});
-		hanjieGrid.setLine(5, new Integer[] {-1,-1,1,1,1,1,1,1,-1,-1});
-		hanjieGrid.setLine(6, new Integer[] {-1,1,1,1,1,1,1,1,1,-1});
-		hanjieGrid.setLine(7, new Integer[] {-1,-1,-1,-1,1,1,-1,-1,-1,-1});
-		hanjieGrid.setLine(8, new Integer[] {-1,-1,-1,-1,1,1,-1,-1,-1,-1});
-		hanjieGrid.setLine(9, new Integer[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1});
+		hanjieGrid.setLine(0, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
+		hanjieGrid.setLine(1, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		hanjieGrid.setLine(2, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
+		hanjieGrid.setLine(3, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
+		hanjieGrid.setLine(4, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
+		hanjieGrid.setLine(5, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
+		hanjieGrid.setLine(6, new ArrayList<Integer>(Arrays.asList(-1,1,1,1,1,1,1,1,1,-1)));
+		hanjieGrid.setLine(7, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		hanjieGrid.setLine(8, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		hanjieGrid.setLine(9, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
 		
 	}
 	

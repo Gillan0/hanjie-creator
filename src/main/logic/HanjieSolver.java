@@ -2,190 +2,95 @@ package main.logic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import main.logic.model.Grid;
-import main.logic.model.GridLengthException;
-import main.logic.model.GridWidthException;
 import main.logic.model.HanjieGrid;
 
 public class HanjieSolver {
 
 	private HanjieGrid hanjieGrid;
 	private Grid solveGrid;
-	private ArrayList<Integer> euristicLines;
-	private ArrayList<Integer> euristicColumns;
+	private ArrayList<AxisArray> axisArrays;
 	
-	
-	public HanjieSolver(HanjieGrid h) throws GridLengthException, GridWidthException {
+	public HanjieSolver(HanjieGrid h) throws Exception {
 		hanjieGrid = h;
-		solveGrid = new Grid(h.getLength());
-		euristicLines = new ArrayList<Integer>();
-		euristicColumns = new ArrayList<Integer>();
-		
-		for (int i = 0; i < hanjieGrid.getLength(); i++) {
-			ArrayList<Integer> line = hanjieGrid.getLine(i);
-			euristicLines.add(computeEuristic(line));
+		solveGrid = new Grid(h.getHeight());
+		axisArrays = new ArrayList<AxisArray>();
+	
+		convertToAxisArray();
+		solve(0);
+	}
+	
+	private void convertToAxisArray() throws Exception {		
+		for (int i=0; i < hanjieGrid.getWidth(); i++) {
+			axisArrays.add(new LineArray(solveGrid.getLine(i), hanjieGrid.getLineDescription(i), i));
+		}
+		for (int i=0; i < hanjieGrid.getHeight(); i++) {
+			axisArrays.add(new ColumnArray(solveGrid.getColumn(i), hanjieGrid.getColumnDescription(i), i));
 		}
 		
-		for (int i = 0; i < hanjieGrid.getWidth(); i++) {
-			ArrayList<Integer> column = hanjieGrid.getColumn(i);
-			euristicColumns.add(computeEuristic(column));
+		axisArrays.sort((AxisArray e1, AxisArray e2) -> Double.compare(e1.getHeuristic(), e2.getHeuristic()));
+	}
+	
+	private void solve(int NB_LOOP) throws Exception {
+		if (NB_LOOP >= 150 || axisArrays.size() <= 0) {
+			return;
 		}
-		
-	}
-
-	public static int computeEuristic(ArrayList<Integer> description) {
-		int patternSum = description.stream().mapToInt(Integer::intValue).sum();
-		int patternGap = description.size() - 1;
-		
-		return patternSum + patternGap;
-	}
-	
-	public static ArrayList<ArrayList<Integer>> computePossibilities(ArrayList<Integer> pattern, int max) {
-		ArrayList<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>();
-		
-		if (pattern.isEmpty()) {
-			ArrayList<Integer> possibility = new ArrayList<Integer>();
-			while (possibility.size() < max) {
-				possibility.add(-1);
-	        }
-			possibilities.add(possibility);
-			return possibilities;
+		AxisArray a = axisArrays.getFirst();
+		if (a instanceof LineArray) {
+			a.setContent(solveGrid.getLine(a.getIndex()));
+		} else {
+			a.setContent(solveGrid.getColumn(a.getIndex()));
 		}
+		a.updatePossibilities();
 		
-		computeRecursivePossibilities(new ArrayList<Integer>(), pattern, possibilities, max, pattern.stream().mapToInt(Integer::intValue).sum());
+		ArrayList<Integer> commonElements = PossibilityManager.checkCommonElements(a.getPossibilities());
 		
-		return possibilities;
-	}
-	
-
-	public static void computeRecursivePossibilities(ArrayList<Integer> currentPossibility,
-											  	List<Integer> pattern,
-												ArrayList<ArrayList<Integer>> possibilities,
-												int max,
-												int patternSum) {				
-		if (currentPossibility.size() == max && pattern.size() <= 0) {
-			possibilities.add(currentPossibility);
-		} else if (pattern.size() <= 0) {
-			int currentSize = currentPossibility.size();
-			for (int i = 0; i < max - currentSize; i++) {
-				currentPossibility.add(-1);
-			}
-			possibilities.add(currentPossibility);
-		} else if (currentPossibility.size() + pattern.get(0) <= max) {
-			
-			ArrayList<Integer> currentPattern = new ArrayList<Integer>();
-			if (currentPossibility.size() > 0) {
-				currentPattern.add(-1);
-			}
-			
-			for (int j = 0; j < pattern.get(0); j++) {
-				currentPattern.add(1);
-			}
-
-			for (int i = currentPossibility.size()-1+currentPattern.size(); i < max; i++) {
-			
-				ArrayList<Integer> followingPossibility = (ArrayList<Integer>) currentPossibility.clone();
-				
-				followingPossibility.addAll(currentPattern);
-			
-				computeRecursivePossibilities(followingPossibility,
-						pattern.subList(1, pattern.size()),
-						possibilities,
-						max,
-						patternSum);
-
-				currentPossibility.add(-1);
-				
-			}
-			
+		a.setContent(commonElements);
+		
+		axisArrays.removeFirst();
+		if (!a.isComplete()) {
+			a.computeHuristic();
+			axisArrays.add(a);
 		}
-	}
-	
+		axisArrays.sort((AxisArray e1, AxisArray e2) -> Double.compare(e1.getHeuristic(), e2.getHeuristic()));
 
-	public ArrayList<ArrayList<Integer>> computeLinePossibilities(int n) throws GridLengthException {
-		int length = hanjieGrid.getLength();
 		
-		ArrayList<Integer> pattern = (ArrayList<Integer>) hanjieGrid.getLineDescription(n);
-		
-		return computePossibilities(pattern, length);
-		
+		a.updateGrid(solveGrid);
+		System.out.println(solveGrid.toString());
+		solve(NB_LOOP + 1);
 	}
+	
+	
+	
+	public static void main(String[] args) throws Exception {
+		HanjieGrid h = new HanjieGrid(10);
 		
+		/* h Figure
+		 * 
+		 *        x x
+		 *      x x x x
+		 *    x x x x x x
+		 *      x x x x
+		 *    x x x x x x
+		 *  x x x x x x x x 
+		 *        x x   
+		 *        x x
+		 * 
+		 */
+		
+		h.setLine(0, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
+		h.setLine(1, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		h.setLine(2, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
+		h.setLine(3, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
+		h.setLine(4, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,1,1,1,1,-1,-1,-1)));
+		h.setLine(5, new ArrayList<Integer>(Arrays.asList(-1,-1,1,1,1,1,1,1,-1,-1)));
+		h.setLine(6, new ArrayList<Integer>(Arrays.asList(-1,1,1,1,1,1,1,1,1,-1)));
+		h.setLine(7, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		h.setLine(8, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,1,1,-1,-1,-1,-1)));
+		h.setLine(9, new ArrayList<Integer>(Arrays.asList(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)));
 
-	public ArrayList<ArrayList<Integer>> computeColumnPossibilities(int n) throws GridWidthException {
-		int width = hanjieGrid.getWidth();
-		
-		ArrayList<Integer> pattern = (ArrayList<Integer>) hanjieGrid.getColumnDescription(n);
-		
-		return computePossibilities(pattern, width);
-	}
-
-
-	public static ArrayList<Integer> checkCommonElements(ArrayList<ArrayList<Integer>> possibilities) {
-		ArrayList<Integer> commonElements = new ArrayList<Integer>();
-		
-		for (int i=0; i < possibilities.get(0).size(); i++) {
-			boolean isEqual = true;
-			for (int j=0; j < possibilities.size() - 1; j++) {
-				if (possibilities.get(j).get(i) != possibilities.get(j + 1).get(i)) {
-					isEqual = false;
-					break;
-				}
-			}
-			if (isEqual) {
-				commonElements.add(possibilities.get(0).get(i));
-			} else {
-				commonElements.add(0);
-			}
-		}
-		
-		return commonElements;
+		HanjieSolver solver = new HanjieSolver(h);
 	}
 	
-	public static ArrayList<ArrayList<Integer>> updatePossibilities(ArrayList<ArrayList<Integer>> possibilities,
-																	ArrayList<Integer> currentAxis) {
-		ArrayList<ArrayList<Integer>> updatedPossibilities = new ArrayList<ArrayList<Integer>>();
-		
-		for (int i=0; i < possibilities.size(); i++) {
-			
-			boolean toAdd = true;
-			for (int j=0; j < currentAxis.size(); j++) {
-				if (currentAxis.get(j) == 0) {
-					continue;
-				}
-				if (currentAxis.get(j) != possibilities.get(i).get(j)) {
-					toAdd = false;
-				}
-			}
-			
-			if (toAdd) {
-				updatedPossibilities.add(possibilities.get(i));
-			}
-		}
-		
-		return updatedPossibilities;
-	}
-	
-	
-	
-	public static void main(String[] args) {
-		ArrayList<Integer> pattern = new ArrayList<Integer>();
-		pattern.add(1);
-		pattern.add(3);
-		pattern.add(2);
-		ArrayList<ArrayList<Integer>> possibilities = HanjieSolver.computePossibilities(pattern, 10);
-		System.out.println("Possibilities : " + possibilities);
-		ArrayList<Integer> commonElements = HanjieSolver.checkCommonElements(possibilities);
-		System.out.println("CommonElements : " + commonElements);
-		ArrayList<ArrayList<Integer>> updatedPossibilities = HanjieSolver.updatePossibilities(possibilities, new ArrayList<Integer>(Arrays.asList(1,0,0,1,0,0,0,1,0,0)));
-		System.out.println("UpdatedPossibilities : " + updatedPossibilities);
-		ArrayList<Integer> updatedCommonElements = HanjieSolver.checkCommonElements(updatedPossibilities);
-		System.out.println("UpdatedCommonElements : " + updatedCommonElements);
-	}
 	
 }

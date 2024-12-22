@@ -13,12 +13,12 @@ public class HanjieGrid extends Grid {
 		super(s, s);
 	}
 
-	public HanjieGrid(int length, int width) {
-		super(length, width);
+	public HanjieGrid(int height, int width) {
+		super(height, width);
 	}
 	
-	public ArrayList<Integer> getLineDescription(int n) throws GridLengthException {	
-		checkGridLengthException(n);
+	public ArrayList<Integer> getLineDescription(int n) throws GridHeightException {	
+		checkGridHeightException(n);
 		
 		ArrayList<Integer> line = getLine(n);
 		ArrayList<Integer> description = new ArrayList<Integer>();
@@ -41,7 +41,7 @@ public class HanjieGrid extends Grid {
 		ArrayList<Integer> description = new ArrayList<Integer>();
 		
 		int count = 0;
-		for (int i = 0; i < length; i++ ) {
+		for (int i = 0; i < height; i++ ) {
 			if (column.get(i) == 1) {
 				count++;
 			} else if (count != 0) {
@@ -53,8 +53,8 @@ public class HanjieGrid extends Grid {
 		return description;
 	}
 	
-	public void toggleElement(int i, int j) throws GridLengthException, GridWidthException {
-		checkGridLengthException(i);
+	public void toggleElement(int i, int j) throws GridHeightException, GridWidthException {
+		checkGridHeightException(i);
 		checkGridWidthException(j);
 		grid[i][j] = -grid[i][j];
 		
