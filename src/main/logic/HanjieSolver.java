@@ -1,10 +1,16 @@
 package main.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import main.logic.model.Grid;
+import main.logic.model.GridLengthException;
+import main.logic.model.GridWidthException;
+import main.logic.model.HanjieGrid;
 
 public class HanjieSolver {
 
@@ -111,7 +117,7 @@ public class HanjieSolver {
 	}
 		
 
-	public ArrayList<ArrayList<Integer>> computeWidthPossibilities(int n) throws GridWidthException {
+	public ArrayList<ArrayList<Integer>> computeColumnPossibilities(int n) throws GridWidthException {
 		int width = hanjieGrid.getWidth();
 		
 		ArrayList<Integer> pattern = (ArrayList<Integer>) hanjieGrid.getColumnDescription(n);
@@ -141,17 +147,45 @@ public class HanjieSolver {
 		return commonElements;
 	}
 	
+	public static ArrayList<ArrayList<Integer>> updatePossibilities(ArrayList<ArrayList<Integer>> possibilities,
+																	ArrayList<Integer> currentAxis) {
+		ArrayList<ArrayList<Integer>> updatedPossibilities = new ArrayList<ArrayList<Integer>>();
+		
+		for (int i=0; i < possibilities.size(); i++) {
+			
+			boolean toAdd = true;
+			for (int j=0; j < currentAxis.size(); j++) {
+				if (currentAxis.get(j) == 0) {
+					continue;
+				}
+				if (currentAxis.get(j) != possibilities.get(i).get(j)) {
+					toAdd = false;
+				}
+			}
+			
+			if (toAdd) {
+				updatedPossibilities.add(possibilities.get(i));
+			}
+		}
+		
+		return updatedPossibilities;
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		ArrayList<Integer> pattern = new ArrayList<Integer>();
 		pattern.add(1);
-		pattern.add(7);
-		pattern.add(6);
 		pattern.add(3);
-		ArrayList<ArrayList<Integer>> possibilities = HanjieSolver.computePossibilities(pattern, 25);
+		pattern.add(2);
+		ArrayList<ArrayList<Integer>> possibilities = HanjieSolver.computePossibilities(pattern, 10);
 		System.out.println("Possibilities : " + possibilities);
 		ArrayList<Integer> commonElements = HanjieSolver.checkCommonElements(possibilities);
 		System.out.println("CommonElements : " + commonElements);
+		ArrayList<ArrayList<Integer>> updatedPossibilities = HanjieSolver.updatePossibilities(possibilities, new ArrayList<Integer>(Arrays.asList(1,0,0,1,0,0,0,1,0,0)));
+		System.out.println("UpdatedPossibilities : " + updatedPossibilities);
+		ArrayList<Integer> updatedCommonElements = HanjieSolver.checkCommonElements(updatedPossibilities);
+		System.out.println("UpdatedCommonElements : " + updatedCommonElements);
 	}
 	
 }

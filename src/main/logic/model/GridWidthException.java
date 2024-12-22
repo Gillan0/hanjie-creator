@@ -1,4 +1,4 @@
-package main.logic;
+package main.logic.model;
 
 public class GridWidthException extends Exception {
 

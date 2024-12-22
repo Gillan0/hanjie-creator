@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.logic.HanjieGrid;
+import main.logic.model.HanjieGrid;
 
 class HanjieGridTest {
 
@@ -18,6 +18,19 @@ class HanjieGridTest {
 	@BeforeEach
 	void setup() throws Exception {
 		hanjieGrid = new HanjieGrid(10);
+		
+		/* hanjieGrid Figure
+		 * 
+		 *        x x
+		 *      x x x x
+		 *    x x x x x x
+		 *      x x x x
+		 *    x x x x x x
+		 *  x x x x x x x x 
+		 *        x x   
+		 *        x x
+		 * 
+		 */
 		
 		hanjieGrid.setLine(0, new Integer[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1});
 		hanjieGrid.setLine(1, new Integer[] {-1,-1,-1,-1,1,1,-1,-1,-1,-1});
@@ -59,6 +72,14 @@ class HanjieGridTest {
 		assertEquals(hanjieGrid.getColumnDescription(7), new ArrayList<Integer>(Arrays.asList(1,2)));
 		assertEquals(hanjieGrid.getColumnDescription(8), new ArrayList<Integer>(Arrays.asList(1)));
 		assertEquals(hanjieGrid.getColumnDescription(9), new ArrayList<Integer>());
+	}
+	
+	@Test
+	void testToggleElement() throws Exception {
+		hanjieGrid.toggleElement(0, 0);
+		assertEquals(hanjieGrid.getElement(0, 0), 1);
+		hanjieGrid.toggleElement(1, 4);
+		assertEquals(hanjieGrid.getElement(1, 4), -1);
 	}
 
 }
