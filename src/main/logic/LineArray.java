@@ -1,18 +1,18 @@
 package main.logic;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import main.logic.model.Grid;
-import main.logic.model.GridHeightException;
+import main.model.Grid;
+import main.model.GridHeightException;
+import main.model.GridWidthException;
 
 public class LineArray extends AxisArray {
 
-	public LineArray(ArrayList<Integer> content, ArrayList<Integer> description, int index) {
+	public LineArray(List<Integer> content, List<Integer> description, int index) {
 		super(content, description, index);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateGrid(Grid solveGrid) throws Exception {
+	public void updateGrid(Grid solveGrid) throws GridHeightException, GridWidthException {
 		solveGrid.setLine(index, content);
 	}
 

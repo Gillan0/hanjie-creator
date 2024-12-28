@@ -3,19 +3,17 @@ package main.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.logic.model.GridHeightException;
-import main.logic.model.GridWidthException;
-import main.logic.model.HanjieGrid;
+import main.model.GridHeightException;
+import main.model.GridWidthException;
+import main.model.HanjieGrid;
 
 public class PossibilityManager {
 
-	public PossibilityManager() {}
-
-	public static ArrayList<ArrayList<Integer>> computePossibilities(ArrayList<Integer> pattern, int max) {
-		ArrayList<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>();
+	public static List<ArrayList<Integer>> computePossibilities(List<Integer> pattern, int max) {
+		ArrayList<ArrayList<Integer>> possibilities = new ArrayList<>();
 		
 		if (pattern.isEmpty()) {
-			ArrayList<Integer> possibility = new ArrayList<Integer>();
+			ArrayList<Integer> possibility = new ArrayList<>();
 			while (possibility.size() < max) {
 				possibility.add(-1);
 	        }
@@ -23,19 +21,19 @@ public class PossibilityManager {
 			return possibilities;
 		}
 		
-		computeRecursivePossibilities(new ArrayList<Integer>(), pattern, possibilities, max, pattern.stream().mapToInt(Integer::intValue).sum());
+		computeRecursivePossibilities(new ArrayList<>(), pattern, possibilities, max, pattern.stream().mapToInt(Integer::intValue).sum());
 		
 		return possibilities;
 	}
 	
 	public static void computeRecursivePossibilities(ArrayList<Integer> currentPossibility,
 											  	List<Integer> pattern,
-												ArrayList<ArrayList<Integer>> possibilities,
+												List<ArrayList<Integer>> possibilities,
 												int max,
 												int patternSum) {				
-		if (currentPossibility.size() == max && pattern.size() <= 0) {
+		if (currentPossibility.size() == max && pattern.isEmpty()) {
 			possibilities.add(currentPossibility);
-		} else if (pattern.size() <= 0) {
+		} else if (pattern.isEmpty()) {
 			int currentSize = currentPossibility.size();
 			for (int i = 0; i < max - currentSize; i++) {
 				currentPossibility.add(-1);
@@ -43,8 +41,8 @@ public class PossibilityManager {
 			possibilities.add(currentPossibility);
 		} else if (currentPossibility.size() + pattern.get(0) <= max) {
 			
-			ArrayList<Integer> currentPattern = new ArrayList<Integer>();
-			if (currentPossibility.size() > 0) {
+			ArrayList<Integer> currentPattern = new ArrayList<>();
+			if (!currentPossibility.isEmpty()) {
 				currentPattern.add(-1);
 			}
 			
@@ -71,13 +69,13 @@ public class PossibilityManager {
 		}
 	}
 
-	public static ArrayList<Integer> checkCommonElements(ArrayList<ArrayList<Integer>> possibilities) {
-		ArrayList<Integer> commonElements = new ArrayList<Integer>();
+	public static List<Integer> checkCommonElements(List<ArrayList<Integer>> possibilities) {
+		ArrayList<Integer> commonElements = new ArrayList<>();
 		
 		for (int i=0; i < possibilities.get(0).size(); i++) {
 			boolean isEqual = true;
 			for (int j=0; j < possibilities.size() - 1; j++) {
-				if (possibilities.get(j).get(i) != possibilities.get(j + 1).get(i)) {
+				if (!possibilities.get(j).get(i).equals(possibilities.get(j + 1).get(i)) ) {
 					isEqual = false;
 					break;
 				}
@@ -92,9 +90,9 @@ public class PossibilityManager {
 		return commonElements;
 	}
 	
-	public static ArrayList<ArrayList<Integer>> updatePossibilities(ArrayList<ArrayList<Integer>> possibilities,
-																	ArrayList<Integer> currentAxis) {
-		ArrayList<ArrayList<Integer>> updatedPossibilities = new ArrayList<ArrayList<Integer>>();
+	public static List<ArrayList<Integer>> updatePossibilities(List<ArrayList<Integer>> possibilities,
+																	List<Integer> currentAxis) {
+		ArrayList<ArrayList<Integer>> updatedPossibilities = new ArrayList<>();
 		
 		for (int i=0; i < possibilities.size(); i++) {
 			
@@ -103,7 +101,7 @@ public class PossibilityManager {
 				if (currentAxis.get(j) == 0) {
 					continue;
 				}
-				if (currentAxis.get(j) != possibilities.get(i).get(j)) {
+				if (!currentAxis.get(j).equals(possibilities.get(i).get(j))) {
 					toAdd = false;
 				}
 			}
@@ -116,16 +114,16 @@ public class PossibilityManager {
 		return updatedPossibilities;
 	}
 	
-	public static ArrayList<ArrayList<Integer>> computeLinePossibilities(HanjieGrid h, int n) throws GridHeightException {
+	public static List<ArrayList<Integer>> computeLinePossibilities(HanjieGrid h, int n) throws GridHeightException {
 		int length = h.getHeight();
-		ArrayList<Integer> pattern = (ArrayList<Integer>) h.getLineDescription(n);		
+		List<Integer> pattern = h.getLineDescription(n);		
 		
 		return PossibilityManager.computePossibilities(pattern, length);
 	}
 
-	public static ArrayList<ArrayList<Integer>> computeColumnPossibilities(HanjieGrid h, int n) throws GridWidthException {
+	public static List<ArrayList<Integer>> computeColumnPossibilities(HanjieGrid h, int n) throws GridWidthException {
 		int width = h.getWidth();
-		ArrayList<Integer> pattern = (ArrayList<Integer>) h.getColumnDescription(n);
+		List<Integer> pattern = h.getColumnDescription(n);
 		
 		return PossibilityManager.computePossibilities(pattern, width);
 	}

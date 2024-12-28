@@ -1,19 +1,22 @@
 package main.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import main.logic.model.Grid;
+import main.model.Grid;
+import main.model.GridHeightException;
+import main.model.GridWidthException;
 
 public abstract class AxisArray {
 	
-	protected ArrayList<Integer> content;
-	protected final ArrayList<Integer> description;
+	protected List<Integer> content;
+	protected final List<Integer> description;
 	protected final int index;
 	protected int heuristic;
-	protected ArrayList<ArrayList<Integer>> possibilities;
+	protected List<ArrayList<Integer>> possibilities;
 	protected final int descriptionPriority;
 	
-	public AxisArray(ArrayList<Integer> content, ArrayList<Integer> description, int index) {
+	public AxisArray(List<Integer> content, List<Integer> description, int index) {
 		this.content = content;
 		this.description = description;
 		this.index = index;
@@ -25,14 +28,14 @@ public abstract class AxisArray {
 	}
 	
 	public boolean isComplete() {
-		int contentFilled = (int) content.stream().mapToInt(Integer::intValue).filter((e) -> e != 0).count();
+		int contentFilled = (int) content.stream().mapToInt(Integer::intValue).filter(e -> e != 0).count();
 		return contentFilled == content.size();
 	}
 	
 	public void computeHuristic() {		
-		int contentFilled = (int) content.stream().mapToInt(Integer::intValue).filter((e) -> e != 0).count();
+		int contentFilled = (int) content.stream().mapToInt(Integer::intValue).filter(e -> e != 0).count();
 		
-		if (description.size() <= 0) {
+		if (description.isEmpty()) {
 			heuristic = 1000;
 			return;
 		}
@@ -49,11 +52,11 @@ public abstract class AxisArray {
 		return index;
 	}
 
-	public ArrayList<Integer> getContent() {
+	public List<Integer> getContent() {
 		return content;
 	}
 
-	public ArrayList<ArrayList<Integer>> getPossibilities() {
+	public List<ArrayList<Integer>> getPossibilities() {
 		return possibilities;
 	}
 	
@@ -61,11 +64,10 @@ public abstract class AxisArray {
 		possibilities = PossibilityManager.updatePossibilities(possibilities, content);
 	}
 	
-	public void setContent(ArrayList<Integer> content) {
+	public void setContent(List<Integer> content) {
 		this.content = content;
 	}
 
-	public abstract void updateGrid(Grid solveGrid) throws Exception;
-	
+	public abstract void updateGrid(Grid solveGrid) throws GridHeightException, GridWidthException ;
 
 }
