@@ -10,7 +10,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -19,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.logic.HanjieSolver;
 import main.model.HanjieGrid;
+import main.util.ImageGenerator;
 
 public class Main extends Application {
 
@@ -122,6 +122,31 @@ public class Main extends Application {
 	    VBox layout = new VBox(10); 
 	    layout.setAlignment(Pos.CENTER);
 
+
+	    Button download = new Button("Download");
+	    download.setOnAction(event -> {
+			try {
+				ImageGenerator.generateImage(hanjieGrid);
+
+		    	Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Downloading grids ...");
+		    	alert.setHeaderText("Grids downloaded !");
+		    	alert.setContentText("Both the puzzle grid and the solution grids have been generated at hanjie-creator/grids");
+		    	
+		    	alert.showAndWait();
+			} catch (Exception e) {
+
+		    	Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+		    	alert.setHeaderText("Could not generate the grids");
+		    	alert.setContentText(e.toString());
+		    	
+		    	alert.showAndWait();
+				
+			}
+		});
+	    
+	    
 	    Button solve = new Button("Check Solvability");
 	    solve.setOnAction(event -> {
 	    	boolean isSolvable = false;
@@ -146,7 +171,7 @@ public class Main extends Application {
 	        new Button("Import a picture"),
 	        new Text("Size : 25"),
 	        solve,
-	        new Button("Download")
+	        download
 	    );
 
 	    pane.getChildren().add(layout);
