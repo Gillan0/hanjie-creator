@@ -12,7 +12,7 @@ public class HanjieGrid extends Grid {
 	 * Constructor to create a HanjieGrid. Default is a 25 pixel side long square.
 	 */
 	public HanjieGrid() {
-		super(25);
+		this(25);
 	}
 	
 	/**
@@ -21,7 +21,7 @@ public class HanjieGrid extends Grid {
 	 * @param s Number of pixels on the side
 	 */
 	public HanjieGrid(int s) {
-		super(s, s);
+		this(s, s);
 	}
 
 	/**
@@ -31,7 +31,16 @@ public class HanjieGrid extends Grid {
 	 * @param width  Index of pixels long
 	 */
 	public HanjieGrid(int height, int width) {
-		super(height, width);
+		this.height = height;
+		this.width = width;
+		
+		// Fill the grid with 0
+		grid = new Integer[height][width];
+		for (int i = 0 ; i < height ; i++) {
+			for (int j = 0; j < width ; j++) {
+				grid[i][j] = -1;
+			}
+		}
 	}
 	
 	/**
