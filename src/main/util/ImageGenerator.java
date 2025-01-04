@@ -46,16 +46,16 @@ public class ImageGenerator {
         Graphics2D g2d = unsolvedImage.createGraphics();
 
         drawBackground(grid, g2d, maxLengthDescriptionLine, maxLengthDescriptionColumn, IMAGE_HEIGHT, IMAGE_HEIGHT);
-        drawDescriptions(g2d, columnDescriptions, columnDescriptions, maxLengthDescriptionLine, maxLengthDescriptionColumn);
+        drawDescriptions(g2d, lineDescriptions, columnDescriptions, maxLengthDescriptionLine, maxLengthDescriptionColumn);
                 
         // Creates puzzle grid
         File emptyGrid = new File("hanjie.png");
         ImageIO.write(unsolvedImage, "png", emptyGrid);
         System.out.println("Image created successfully: " + emptyGrid.getAbsolutePath());
 
-        g2d.dispose();
         
         fillSolvedGrid(grid, g2d, maxLengthDescriptionLine, maxLengthDescriptionColumn);
+        g2d.dispose();
         
         // Creates the solution grid
         File solvedGrid = new File("hanjie_solved.png");
