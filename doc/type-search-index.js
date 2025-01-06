@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"main.logic.model","l":"Grid"},{"p":"main.logic.model","l":"GridHeightException"},{"p":"main.logic.model","l":"GridWidthException"}];updateSearchResults();
