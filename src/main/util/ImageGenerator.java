@@ -40,12 +40,12 @@ public class ImageGenerator {
 												.orElse(50) * 20;
 		
 		int IMAGE_WIDTH = grid.getWidth() * 20 + maxLengthDescriptionLine;
-		int IMAGE_HEIGHT = grid.getWidth() * 20 + maxLengthDescriptionColumn;
+		int IMAGE_HEIGHT = grid.getHeight() * 20 + maxLengthDescriptionColumn;
 				
 		BufferedImage unsolvedImage = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = unsolvedImage.createGraphics();
 
-        drawBackground(grid, g2d, maxLengthDescriptionLine, maxLengthDescriptionColumn, IMAGE_HEIGHT, IMAGE_HEIGHT);
+        drawBackground(grid, g2d, maxLengthDescriptionLine, maxLengthDescriptionColumn, IMAGE_WIDTH, IMAGE_HEIGHT);
         drawDescriptions(g2d, lineDescriptions, columnDescriptions, maxLengthDescriptionLine, maxLengthDescriptionColumn);
                 
         // Creates puzzle grid

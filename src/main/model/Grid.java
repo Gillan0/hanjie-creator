@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  The Grid class represents a 2D grid of Integers. Here, expected values are -1 (white square) ; 0 (uncertain square) ; 1 (black square).
+ *  The Grid class represents a 2D grid of Integers. Here, expected values are -1 (white square) ; 0 (undefined square) ; 1 (black square).
  */
 public class Grid {
 
