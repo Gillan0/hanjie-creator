@@ -131,14 +131,13 @@ public class Main extends Application {
 	    Button importPicture = new Button("Import a picture");
 	    importPicture.setOnAction(event -> {
 	    	try {
-	    		hanjieGrid = ImageConverter.convertImageToHanjie("sample_images/logoCDV.png");
-	    		System.out.println(hanjieGrid);
-		    	grid = new HanjieGridUI(hanjieGrid);
+	    		ImageConverter.convertImageToHanjie("sample_images/flower.jpeg", hanjieGrid);
 		    	grid.refreshGrid();
 		    	rootPane.setRight(grid.getPane());
 
 	    		
 	    	} catch (Exception e) {
+	    		e.printStackTrace();
 	    		Alert alert = new Alert(AlertType.ERROR);
 	    		alert.setTitle("Error");
 	    		alert.setHeaderText("Could not import the picture");
