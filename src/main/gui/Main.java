@@ -18,25 +18,27 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.logic.HanjieSolver;
 import main.model.HanjieGrid;
+import main.util.ImageConverter;
 import main.util.ImageGenerator;
 
 public class Main extends Application {
 
 	private HanjieGrid hanjieGrid;
+	private HanjieGridUI grid;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			hanjieGrid = new HanjieGrid(25);
+			grid = new HanjieGridUI(hanjieGrid);
 			
 			ScrollPane root = new ScrollPane();
 			BorderPane borderPane = new BorderPane();
-			HanjieGridUI grid = new HanjieGridUI(hanjieGrid);
 			
 			borderPane.setTop(createTopPane());
 			borderPane.setBottom(createBottomPane());
-			borderPane.setLeft(createLeftPane());
-			borderPane.setRight(grid.createGrid());
+			borderPane.setLeft(createLeftPane(borderPane));
+			borderPane.setRight(grid.getPane());
 			
 			HBox hbox = new HBox(10);
 		    hbox.getChildren().addAll(borderPane);    
@@ -114,14 +116,39 @@ public class Main extends Application {
 	    return pane;
 	}	
 	
-	public StackPane createLeftPane() {
+	public StackPane createLeftPane(BorderPane rootPane) {
 	    
 	    StackPane pane = new StackPane();
-
-
 	    VBox layout = new VBox(10); 
 	    layout.setAlignment(Pos.CENTER);
 
+	    Button refreshGrid = new Button("Clear grid");
+	    refreshGrid.setOnAction(event -> {
+	    	grid = new HanjieGridUI(new HanjieGrid(25));
+	    	rootPane.setRight(grid.getPane());
+	    });
+	    
+	    Button importPicture = new Button("Import a picture");
+	    importPicture.setOnAction(event -> {
+	    	try {
+	    		hanjieGrid = ImageConverter.convertImageToHanjie("sample_images/logoCDV.png");
+	    		System.out.println(hanjieGrid);
+		    	grid = new HanjieGridUI(hanjieGrid);
+		    	grid.refreshGrid();
+		    	rootPane.setRight(grid.getPane());
+
+	    		
+	    	} catch (Exception e) {
+	    		Alert alert = new Alert(AlertType.ERROR);
+	    		alert.setTitle("Error");
+	    		alert.setHeaderText("Could not import the picture");
+		    	alert.setContentText(e.toString());
+		    	
+		    	alert.showAndWait();
+	    		
+	    	}
+	    });
+	    
 
 	    Button download = new Button("Download");
 	    download.setOnAction(event -> {
@@ -168,7 +195,8 @@ public class Main extends Application {
 	    });
 	    
 	    layout.getChildren().addAll(
-	        new Button("Import a picture"),
+	    	refreshGrid,
+	        importPicture,
 	        new Text("Size : 25"),
 	        solve,
 	        download

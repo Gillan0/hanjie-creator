@@ -12,12 +12,14 @@ import main.model.HanjieGrid;
 
 public class ImageConverter {
 
-	public static void convertImageToHanjie(String imageURI) throws Exception {
+	public static HanjieGrid convertImageToHanjie(String imageURI) throws Exception {
 		File imgFile = new File(imageURI);
 		BufferedImage imgRead = ImageIO.read(imgFile);	
 
-		int FINAL_WIDTH = 35;
-		int FINAL_HEIGHT = 35;
+		int FINAL_WIDTH = 25;
+		int FINAL_HEIGHT = 25;
+		
+		HanjieGrid hanjieGrid = new HanjieGrid(FINAL_HEIGHT, FINAL_WIDTH);
 		
 		BufferedImage imgWrite = new BufferedImage(FINAL_WIDTH, FINAL_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = imgWrite.createGraphics();
@@ -27,8 +29,8 @@ public class ImageConverter {
 		for (int i=0; i<FINAL_WIDTH+1; i++) {
 			for (int j=0; j<FINAL_HEIGHT+1; j++) {
 				
-				int iImgRead = i*(imgRead.getWidth() / (FINAL_WIDTH+1));
-				int jImgRead = j*(imgRead.getHeight() / (FINAL_HEIGHT+1));
+				int iImgRead = i*(imgRead.getWidth() / (FINAL_WIDTH+1) );
+				int jImgRead = j*(imgRead.getHeight() / (FINAL_HEIGHT+1) );
 				
 				Color pixelColor = new Color(imgRead.getRGB(iImgRead, jImgRead));
 				int grayRGB = (pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) / 3;	
@@ -36,8 +38,6 @@ public class ImageConverter {
 				pixelGrid[i][j] = grayRGB;
 			}
 		}
-		
-		HanjieGrid hanjieGrid = new HanjieGrid(FINAL_HEIGHT, FINAL_WIDTH);
 		
 		for (int i=1; i<FINAL_WIDTH; i++) {
 			for (int j=1; j<FINAL_HEIGHT; j++) {
@@ -60,20 +60,22 @@ public class ImageConverter {
 				hanjieGrid.setElement(j-1, i-1, G < 150 ? -1 : 1);
 			}
 		}
+		
 				
 		g2d.dispose();
 		
-		System.out.println(hanjieGrid.getColumnDescription(FINAL_WIDTH-1));
 		
-		HanjieSolver hanjieSolver = new HanjieSolver(hanjieGrid);
-		hanjieSolver.solve();
-		ImageGenerator.generateImage(hanjieGrid);
+		return hanjieGrid;
 		
-		File saveFile = new File("small_CDV.png");
-		ImageIO.write(imgWrite, "png",	saveFile);
 	}
-
+		//HanjieSolver hanjieSolver = new HanjieSolver(hanjieGrid);
+		//hanjieSolver.solve();
+		//ImageGenerator.generateImage(hanjieGrid);
+	
+	/*
 	public static void main(String[] args) throws Exception {
-		convertImageToHanjie("C:\\Users\\anton\\OneDrive\\Documents\\IMT ATLANTIQUE\\A2\\ASSOCIATIF\\cdv\\hanjie-creator\\logo_CDV.png");	
+		HanjieGrid hanjieGrid = new HanjieGrid(100,100);
+		convertImageToHanjie("sample_images/crown_sample.jpg", hanjieGrid);	
 	}
+	*/
 }

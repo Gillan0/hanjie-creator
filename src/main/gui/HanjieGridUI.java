@@ -22,16 +22,18 @@ public class HanjieGridUI {
     private HanjieGrid hanjieGrid;
     
     private GridPane gridPane = new GridPane();
+    private Pane layeredPane = new Pane();
     
     public HanjieGridUI(HanjieGrid hanjieGrid) {
     	this.hanjieGrid = hanjieGrid;
     	this.GRID_SIZE = hanjieGrid.getHeight();
     	this.cells = new Rectangle[GRID_SIZE][GRID_SIZE];
         this.cacheGrid = new Rectangle[GRID_SIZE][GRID_SIZE];
+        createGrid();
     }
     
-    public Pane createGrid() {
-        Pane layeredPane = new Pane();
+    public void createGrid() {
+        layeredPane = new Pane();
         
         gridPane.setOnMousePressed(this::mouseAction);        
         gridPane.setOnMouseDragged(this::mouseAction);
@@ -83,9 +85,23 @@ public class HanjieGridUI {
 		        }
         });
 
-        return layeredPane;
     }
 
+    public Pane getPane() {
+    	return layeredPane;
+    }
+    
+    public void refreshGrid() throws GridHeightException, GridWidthException {
+    	for (int i = 0; i < hanjieGrid.getHeight(); i++) {
+    		for (int j = 0; j < hanjieGrid.getWidth(); j++) {
+    			Rectangle cell = cells[i][j];
+    			
+    			cell.setFill(hanjieGrid.getElement(i, j) == 1 ? Color.BLACK : Color.WHITE);	
+        	}
+    	}
+    }
+    
+    
     private void toggleColor(Rectangle cell) {
         if (cell.getFill().equals(Color.BLACK)) {
             cell.setFill(Color.WHITE);
