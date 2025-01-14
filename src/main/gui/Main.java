@@ -1,5 +1,7 @@
 package main.gui;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +17,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import main.logic.HanjieSolver;
 import main.model.HanjieGrid;
@@ -29,7 +34,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			hanjieGrid = new HanjieGrid(25);
+			hanjieGrid = new HanjieGrid(35);
 			grid = new HanjieGridUI(hanjieGrid);
 			
 			ScrollPane root = new ScrollPane();
@@ -37,7 +42,7 @@ public class Main extends Application {
 			
 			borderPane.setTop(createTopPane());
 			borderPane.setBottom(createBottomPane());
-			borderPane.setLeft(createLeftPane(borderPane));
+			borderPane.setLeft(createLeftPane(borderPane, primaryStage));
 			borderPane.setRight(grid.getPane());
 			
 			HBox hbox = new HBox(10);
@@ -62,6 +67,7 @@ public class Main extends Application {
 			primaryStage.setHeight(640);
 			
 			primaryStage.show();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,7 +122,7 @@ public class Main extends Application {
 	    return pane;
 	}	
 	
-	public StackPane createLeftPane(BorderPane rootPane) {
+	public StackPane createLeftPane(BorderPane rootPane, Stage primaryStage) {
 	    
 	    StackPane pane = new StackPane();
 	    VBox layout = new VBox(10); 
@@ -131,9 +137,16 @@ public class Main extends Application {
 	    Button importPicture = new Button("Import a picture");
 	    importPicture.setOnAction(event -> {
 	    	try {
-	    		ImageConverter.convertImageToHanjie("sample_images/flower.jpeg", hanjieGrid);
-		    	grid.refreshGrid();
-		    	rootPane.setRight(grid.getPane());
+	    		FileChooser fileChooser = new FileChooser();
+	    		fileChooser.setTitle("Open Resource File");
+	    		fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+	    		File selectedFile = fileChooser.showOpenDialog(primaryStage);
+	    		
+	    		if (selectedFile != null) {
+		    		ImageConverter.convertImageToHanjie(selectedFile, hanjieGrid);
+			    	grid.refreshGrid();
+			    	rootPane.setRight(grid.getPane());
+	    		}
 
 	    		
 	    	} catch (Exception e) {
@@ -152,12 +165,22 @@ public class Main extends Application {
 	    Button download = new Button("Download");
 	    download.setOnAction(event -> {
 			try {
-				ImageGenerator.generateImage(hanjieGrid);
+				
+				DirectoryChooser directoryChooser = new DirectoryChooser();
+		        directoryChooser.setTitle("Select Folder to Save Grids");
 
+		        File selectedDirectory = directoryChooser.showDialog(primaryStage);    		
+	    		
+		        if (selectedDirectory == null) {
+		        	return;
+		        }
+		        
+				ImageGenerator.generateImage(hanjieGrid, selectedDirectory);
+				
 		    	Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Downloading grids ...");
 		    	alert.setHeaderText("Grids downloaded !");
-		    	alert.setContentText("Both the puzzle grid and the solution grids have been generated at hanjie-creator/grids");
+		    	alert.setContentText("Both the puzzle grid and the solution grids have been generated.");
 		    	
 		    	alert.showAndWait();
 			} catch (Exception e) {
@@ -196,7 +219,7 @@ public class Main extends Application {
 	    layout.getChildren().addAll(
 	    	refreshGrid,
 	        importPicture,
-	        new Text("Size : 25"),
+	        new Text("Size : 35"),
 	        solve,
 	        download
 	    );

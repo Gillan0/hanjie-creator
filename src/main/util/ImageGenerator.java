@@ -18,7 +18,7 @@ import main.model.HanjieGrid;
 
 public class ImageGenerator {
 	
-	public static void generateImage(HanjieGrid grid) throws GridHeightException, GridWidthException, IOException {		
+	public static void generateImage(HanjieGrid grid, File selectedDirectory) throws GridHeightException, GridWidthException, IOException {		
 		ArrayList<ArrayList<Integer>> lineDescriptions = new ArrayList<>();
 		ArrayList<ArrayList<Integer>> columnDescriptions = new ArrayList<>();
 		
@@ -49,7 +49,7 @@ public class ImageGenerator {
         drawDescriptions(g2d, lineDescriptions, columnDescriptions, maxLengthDescriptionLine, maxLengthDescriptionColumn);
                 
         // Creates puzzle grid
-        File emptyGrid = new File("hanjie.png");
+        File emptyGrid = generateUniqueFile(selectedDirectory, "hanjie", ".png");
         ImageIO.write(unsolvedImage, "png", emptyGrid);
         System.out.println("Image created successfully: " + emptyGrid.getAbsolutePath());
 
@@ -58,11 +58,24 @@ public class ImageGenerator {
         g2d.dispose();
         
         // Creates the solution grid
-        File solvedGrid = new File("hanjie_solved.png");
+        File solvedGrid = generateUniqueFile(selectedDirectory, "hanjie_solved", ".png");
         ImageIO.write(unsolvedImage, "png", solvedGrid);
         System.out.println("Image created successfully: " + solvedGrid.getAbsolutePath());
     
 	}
+	
+	 private static File generateUniqueFile(File directory, String baseName, String extension) {
+	        int counter = 0;
+	        File file;
+	        do {
+	            String fileName = counter == 0
+	                    ? baseName + extension
+	                    : baseName + " (" + counter + ")" + extension;
+	            file = new File(directory, fileName);
+	            counter++;
+	        } while (file.exists());
+	        return file;
+	    }
 	
 	/**
 	 * 

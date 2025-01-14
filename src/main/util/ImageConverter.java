@@ -12,8 +12,7 @@ import main.model.HanjieGrid;
 
 public class ImageConverter {
 
-	public static void convertImageToHanjie(String imageURI, HanjieGrid hanjieGrid) throws Exception {
-		File imgFile = new File(imageURI);
+	public static void convertImageToHanjie(File imgFile, HanjieGrid hanjieGrid) throws Exception {
 		BufferedImage imgRead = ImageIO.read(imgFile);	
 
 		int FINAL_WIDTH = hanjieGrid.getWidth();
