@@ -5,6 +5,8 @@ package main.model;
  */
 public class GridHeightException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
      * Constructor for GridHeightException.
      *

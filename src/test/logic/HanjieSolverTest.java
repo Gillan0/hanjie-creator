@@ -2,13 +2,7 @@ package test.logic;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
-
-import main.logic.HanjieSolver;
-import main.model.HanjieGrid;
 
 class HanjieSolverTest {
 
@@ -19,7 +13,7 @@ class HanjieSolverTest {
 	
 	@Test
 	void testComputePossibilities() {
-		
+		fail("Not yet implemented");
 	}
 	
 }

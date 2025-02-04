@@ -8,15 +8,16 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.model.GridHeightException;
+import main.model.GridWidthException;
 import main.model.HanjieGrid;
 
 class HanjieGridTest {
 
-	private HanjieGrid emptyGrid; // TO BE TESTED LATER
 	private HanjieGrid hanjieGrid;
 	
 	@BeforeEach
-	void setup() throws Exception {
+	void setup() throws GridHeightException {
 		hanjieGrid = new HanjieGrid(10);
 		
 		/* hanjieGrid Figure
@@ -46,7 +47,7 @@ class HanjieGridTest {
 	}
 	
 	@Test
-	void testGetLineDescription() throws Exception {
+	void testGetLineDescription() throws GridHeightException {
 		
 		assertEquals(hanjieGrid.getLineDescription(0), new ArrayList<>());
 		assertEquals(hanjieGrid.getLineDescription(1), new ArrayList<>(Arrays.asList(2))); 
@@ -61,7 +62,7 @@ class HanjieGridTest {
 	}
 	
 	@Test
-	void testGetColumnDescription() throws Exception {
+	void testGetColumnDescription() throws GridWidthException {
 		assertEquals(hanjieGrid.getColumnDescription(0), new ArrayList<>());
 		assertEquals(hanjieGrid.getColumnDescription(1), new ArrayList<>(Arrays.asList(1))); 
 		assertEquals(hanjieGrid.getColumnDescription(2), new ArrayList<>(Arrays.asList(1,2)));
@@ -75,7 +76,7 @@ class HanjieGridTest {
 	}
 	
 	@Test
-	void testToggleElement() throws Exception {
+	void testToggleElement() throws GridWidthException, GridHeightException {
 		hanjieGrid.toggleElement(0, 0);
 		assertEquals(hanjieGrid.getElement(0, 0), 1);
 		hanjieGrid.toggleElement(1, 4);

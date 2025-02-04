@@ -5,6 +5,9 @@ package main.model;
  */
 public class GridWidthException extends Exception {
 
+	
+	private static final long serialVersionUID = 1L;
+
 	/**
      * Constructor for GridWidthException.
      *

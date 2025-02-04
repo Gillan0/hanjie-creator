@@ -64,7 +64,7 @@ public class Main extends Application {
 			primaryStage.getIcons().add(icon);
 			
 			primaryStage.setWidth(720);
-			primaryStage.setHeight(640);
+			primaryStage.setHeight(760);
 			
 			primaryStage.show();
 			
@@ -84,9 +84,10 @@ public class Main extends Application {
 	    Text description = new Text(
 	    		"""
 	    		This software allows users to create and solve Hanjie (Picross) puzzles with ease. Users can draw their own patterns
-	    	    directly on a customizable grid, and the software will check whether the puzzle is solvable. Additionally, the software 
-	    	    offers the ability to import an image, automatically generating a Hanjie puzzle based on the image's pixel structure. 
-	    	    """);
+	    		directly on a customizable grid, and the software will check whether the puzzle is solvable. Additionally, the software 
+	    		offers the ability to import an image, automatically generating a Hanjie puzzle based on the image's pixel structure. 
+	    		"""
+	    );
 
 	    
 	    description.setFont(new Font("Arial Rounded", 12));
@@ -130,7 +131,8 @@ public class Main extends Application {
 
 	    Button refreshGrid = new Button("Clear grid");
 	    refreshGrid.setOnAction(event -> {
-	    	grid = new HanjieGridUI(new HanjieGrid(25));
+	    	hanjieGrid = new HanjieGrid(35);
+	    	grid = new HanjieGridUI(hanjieGrid);
 	    	rootPane.setRight(grid.getPane());
 	    });
 	    
