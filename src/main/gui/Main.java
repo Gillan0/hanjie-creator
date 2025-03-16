@@ -28,13 +28,15 @@ import main.util.ImageGenerator;
 
 public class Main extends Application {
 
+	private int GRID_SIZE = 35;
+	
 	private HanjieGrid hanjieGrid;
 	private HanjieGridUI grid;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			hanjieGrid = new HanjieGrid(35);
+			hanjieGrid = new HanjieGrid(GRID_SIZE);
 			grid = new HanjieGridUI(hanjieGrid);
 			
 			ScrollPane root = new ScrollPane();
@@ -131,7 +133,7 @@ public class Main extends Application {
 
 	    Button refreshGrid = new Button("Clear grid");
 	    refreshGrid.setOnAction(event -> {
-	    	hanjieGrid = new HanjieGrid(35);
+	    	hanjieGrid = new HanjieGrid(GRID_SIZE);
 	    	grid = new HanjieGridUI(hanjieGrid);
 	    	rootPane.setRight(grid.getPane());
 	    });
